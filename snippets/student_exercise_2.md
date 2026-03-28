@@ -53,12 +53,12 @@ Replace it with:
         fbg = result.get("food_boundary_guard") or {}
         hcg = result.get("harmful_content_guard") or {}
         guard_data = {
-            "final_decision":             result.get("final_decision", ""),
-            "food_boundary_decision":     fbg.get("decision", ""),
-            "food_boundary_reason":       fbg.get("reason", ""),
-            "food_boundary_confidence":   f"{fbg.get('confidence', 0):.4f}",
-            "harmful_content_decision":   hcg.get("decision", ""),
-            "harmful_content_reason":     hcg.get("reason", ""),
+            "final_decision": result.get("final_decision", ""),
+            "food_boundary_decision": fbg.get("decision", ""),
+            "food_boundary_reason": fbg.get("reason", ""),
+            "food_boundary_confidence": f"{fbg.get('confidence', 0):.4f}",
+            "harmful_content_decision": hcg.get("decision", ""),
+            "harmful_content_reason": hcg.get("reason", ""),
             "harmful_content_confidence": f"{hcg.get('confidence', 0):.4f}",
         }
         return predicted_class, probability, guard_data
@@ -141,16 +141,16 @@ Replace it with:
         Key=s3_key,
         Tagging={
             'TagSet': [
-                {'Key': 'predicted_class',             'Value': preds},
-                {'Key': 'confidence',                  'Value': f"{confidence:.3f}"},
-                {'Key': 'timestamp',                   'Value': timestamp},
-                {'Key': 'final_decision',              'Value': gd.get('final_decision', '')},
-                {'Key': 'food_boundary_decision',      'Value': gd.get('food_boundary_decision', '')},
-                {'Key': 'food_boundary_reason',        'Value': gd.get('food_boundary_reason', '')},
-                {'Key': 'food_boundary_confidence',    'Value': gd.get('food_boundary_confidence', '')},
-                {'Key': 'harmful_content_decision',    'Value': gd.get('harmful_content_decision', '')},
-                {'Key': 'harmful_content_reason',      'Value': gd.get('harmful_content_reason', '')},
-                {'Key': 'harmful_content_confidence',  'Value': gd.get('harmful_content_confidence', '')},
+                {'Key': 'predicted_class', 'Value': preds},
+                {'Key': 'confidence', 'Value': f"{confidence:.3f}"},
+                {'Key': 'timestamp', 'Value': timestamp},
+                {'Key': 'final_decision', 'Value': gd.get('final_decision', '')},
+                {'Key': 'food_boundary_decision', 'Value': gd.get('food_boundary_decision', '')},
+                {'Key': 'food_boundary_reason', 'Value': gd.get('food_boundary_reason', '')},
+                {'Key': 'food_boundary_confidence', 'Value': gd.get('food_boundary_confidence', '')},
+                {'Key': 'harmful_content_decision', 'Value': gd.get('harmful_content_decision', '')},
+                {'Key': 'harmful_content_reason', 'Value': gd.get('harmful_content_reason', '')},
+                {'Key': 'harmful_content_confidence', 'Value': gd.get('harmful_content_confidence', '')},
             ]
         }
     )
