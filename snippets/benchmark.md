@@ -23,7 +23,7 @@ Set the floating IP of your `node-safeguard-{username}` VM:
 ::: {.cell .code}
 ```python
 # runs on Chameleon Jupyter environment
-import requests, base64, time, numpy as np, os, glob
+import requests, base64, time, numpy as np
 
 FLOATING_IP = "<FLOATING_IP>"  # replace with your VM's floating IP
 
