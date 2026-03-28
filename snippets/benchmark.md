@@ -27,11 +27,11 @@ import requests, base64, time, numpy as np, os, glob
 
 FLOATING_IP = "<FLOATING_IP>"  # replace with your VM's floating IP
 
-FOOD11_URL       = f"http://{FLOATING_IP}:8000"
+FOOD11_URL = f"http://{FLOATING_IP}:8000"
 ORCHESTRATOR_URL = f"http://{FLOATING_IP}:8080"
-NUM_REQUESTS     = 100
+NUM_REQUESTS = 100
 
-print(f"Food11 URL:       {FOOD11_URL}")
+print(f"Food11 URL: {FOOD11_URL}")
 print(f"Orchestrator URL: {ORCHESTRATOR_URL}")
 ```
 :::
@@ -100,15 +100,15 @@ print("Done.")
 def summarize(latencies, label):
     total_sec = latencies.sum() / 1000
     return {
-        "path":            label,
-        "median_ms":       round(np.median(latencies), 2),
-        "p95_ms":          round(np.percentile(latencies, 95), 2),
-        "p99_ms":          round(np.percentile(latencies, 99), 2),
-        "throughput_rps":  round(len(latencies) / total_sec, 2),
+        "path": label,
+        "median_ms": round(np.median(latencies), 2),
+        "p95_ms": round(np.percentile(latencies, 95), 2),
+        "p99_ms": round(np.percentile(latencies, 99), 2),
+        "throughput_rps": round(len(latencies) / total_sec, 2),
     }
 
 r1 = summarize(food11_latencies, "Food11 direct")
-r2 = summarize(orch_latencies,   "Orchestrator (guarded)")
+r2 = summarize(orch_latencies, "Orchestrator (guarded)")
 
 print(f"{'Metric':<22} {'Food11 direct':>15} {'Orchestrator':>15}")
 print("-" * 54)
