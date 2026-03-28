@@ -3,14 +3,14 @@
 
 ## Exercise 1: Wire in the guard pipeline
 
-Right now gourmetgram is pointed at the Food-11 classifier directly (`http://food11:8000`), so images reach the model without any guard check. You will update one environment variable to route traffic through the orchestrator instead, which runs both guard models before passing accepted images to Food-11.
+Right now gourmetgram is pointed at the Food-11 classifier directly (`http://food11:8000`), so images reach the model without any guard check. Your task is to update one environment variable to route traffic through the orchestrator instead — the orchestrator runs both guard models before passing accepted images to Food-11.
 
-**Port reference — do not mix these up:**
+**Port reference — make sure you change to the right one:**
 
 | Port | Service | Role |
 |------|---------|------|
-| **8080** | orchestrator | Guard pipeline entry point — this is the correct target |
-| **8000** | food11 | Food-11 classifier — currently set, but bypasses the guards |
+| **8080** | orchestrator | Runs both guard models before Food-11 — **change to this** |
+| **8000** | food11 | Food-11 classifier only, no guards — currently set |
 
 :::
 
