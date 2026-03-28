@@ -1,0 +1,13 @@
+{
+  "best_threshold": 0.44999998807907104,
+  "device": "cuda",
+  "run_mode": "full",
+  "train_loss": 0.028122201842663345,
+  "train_rows": 4000,
+  "val_f1": 0.9945,
+  "val_loss": 0.02169128653407097,
+  "val_precision": 0.9945,
+  "val_recall": 0.9945,
+  "val_rows": 4000,
+  "weights_path": "/tmp/guard_weights/food_boundary_guard.pth"
+}

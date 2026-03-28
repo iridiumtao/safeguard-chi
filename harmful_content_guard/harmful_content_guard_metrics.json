@@ -1,0 +1,15 @@
+{
+  "best_threshold": 0.7,
+  "device": "cuda",
+  "held_out_harmful_recall": 0.9565217391304348,
+  "recall_floor": 0.9,
+  "run_mode": "full",
+  "train_loss": 0.13364238895121075,
+  "train_rows": 2000,
+  "val_f1": 0.8752260397830018,
+  "val_loss": 0.22337451484054327,
+  "val_precision": 0.8066666666666666,
+  "val_recall": 0.9565217391304348,
+  "val_rows": 1253,
+  "weights_path": "/tmp/guard_weights/harmful_content_guard.pth"
+}

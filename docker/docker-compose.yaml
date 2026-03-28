@@ -1,0 +1,105 @@
+name: safeguard
+
+services:
+
+  gourmetgram:
+    build:
+      context: https://github.com/teaching-on-testbeds/gourmetgram.git#production
+    ports:
+      - "5000:5000"
+    environment:
+      - FASTAPI_SERVER_URL=http://food11:8000  # TODO: change to http://orchestrator:8080
+      - MINIO_URL=http://minio:9000
+      - MINIO_USER=${MINIO_USER:-your-access-key}
+      - MINIO_PASSWORD=${MINIO_PASSWORD:-your-secret-key}
+    depends_on:
+      orchestrator:
+        condition: service_healthy
+      minio-init:
+        condition: service_completed_successfully
+
+  orchestrator:
+    build:
+      context: /home/cc/safeguard-chi/orchestrator
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - FOOD_BOUNDARY_GUARD_URL=http://food-boundary-guard:8001
+      - HARMFUL_CONTENT_GUARD_URL=http://harmful-content-guard:8002
+      - FOOD11_URL=http://food11:8000
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8080/health')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 5s
+    depends_on:
+      food-boundary-guard:
+        condition: service_healthy
+      harmful-content-guard:
+        condition: service_healthy
+      food11:
+        condition: service_healthy
+
+  food-boundary-guard:
+    build:
+      context: /home/cc/safeguard-chi/food_boundary_guard
+      dockerfile: Dockerfile
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8001/health')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  harmful-content-guard:
+    build:
+      context: /home/cc/safeguard-chi/harmful_content_guard
+      dockerfile: Dockerfile
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8002/health')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  food11:
+    build:
+      context: /home/cc/safeguard-chi/food11
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  minio:
+    image: minio/minio:RELEASE.2025-09-07T16-13-09Z
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      - MINIO_ROOT_USER=${MINIO_USER:-your-access-key}
+      - MINIO_ROOT_PASSWORD=${MINIO_PASSWORD:-your-secret-key}
+    volumes:
+      - minio_data:/data
+    command: server /data --console-address ':9001'
+
+  minio-init:
+    image: minio/mc:RELEASE.2025-08-13T08-35-41Z-cpuv1
+    depends_on:
+      - minio
+    restart: "no"
+    entrypoint: >
+      /bin/sh -c "
+      sleep 5 &&
+      mc alias set myminio http://minio:9000 ${MINIO_USER:-your-access-key} ${MINIO_PASSWORD:-your-secret-key} &&
+      mc mb -p myminio/production || echo 'Bucket already exists'
+      "
+
+volumes:
+  minio_data:

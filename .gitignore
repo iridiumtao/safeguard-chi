@@ -1,0 +1,15 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# OS
+.DS_Store
+
+# Local environment overrides
+.env
+compose.override.yaml
+
+# Jupyter checkpoints
+workspace/.ipynb_checkpoints/
